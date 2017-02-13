@@ -1,0 +1,81 @@
+(args as string[]) () -> {
+	def a as int = a + b * 5 + c.f("Hello, world!", 300.141592);
+	newCar.drive();
+	def v as string[];
+	a[3];
+	def a as int = 3.ohCool;
+	def b as double;
+	def c = (arg as int, arg2 as double);
+	def d = (args as double) -> { def i = 0; return ohyea; };
+	test(5.add, "hello, world!", ohYea()).cool;
+	return 5;
+
+	def a as int = 3;
+	def add as func = (a as int, b as int) -> {a + b};
+	def b = add(a, 3);
+	def Car as struct = (name as string, maxPassengers as int, drive as func);
+	def newCar as Car = Car("name", 6);
+	def carName = newCar.name;
+	newCar.drive();
+	
+	def main as func = (args as string[]) -> {
+		print("Hello, world!");
+	};
+	
+	def mainArgs = (args as string[]);
+	def main as func = mainArgs -> {
+		print("Hello, world!");
+	};
+	
+	def add = (a as int, b as int) (result as int) -> { result = a + b; };
+	def execute = (f as func, i as int) (result as int) -> { result = f(i, i); };
+	execute(add, 5);
+	
+	if (true) {
+	
+	} else (false) {
+	
+	} else {
+	
+	}
+	
+	for (def i as int = 0; i < 10; i++) {
+	
+	}
+	
+	switch () {
+	
+	}
+	
+	while () {
+	
+	}
+	
+};
+
+// TODO
+//
+// return statement ==> complete
+// annotation ==> complete
+// array type ==> complete
+// number things ==> complete
+// 		- double ( ex. 30.12 ) ==> complete
+// 		- calculation ( ex. (5 + 6) * 7 ) ==> complete
+// ambiguous tokenizing ==> half-complete
+// 		- defBlahBlah
+// 			- this should be IDENTIFIER:defBlalBlah. But, it will be DEF:def IDENTIFIER:BlahBlah
+// if, for, while, switch (branch) ==> complete ( exclude switch and while )
+// bit calculation, compare calculation, logic calculation (&&, ||, &, |, <, <=, >, >=, ==) ==> complete
+// dot ref ==> complete
+// 		- something.something.something();
+// +=	==>
+// -=	==>
+// *=	==>
+// /=	==>
+// %=	==>
+// %	==> complete
+// !	==> complete
+// ++i; i++; --i; i--;	==>
+//
+// create vm
+// 		- generating opcodes
