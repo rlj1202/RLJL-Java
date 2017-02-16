@@ -1,9 +1,5 @@
 package redlaboratory.rljl.parse;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +15,14 @@ public class Parser {
 			this.message = message;
 		}
 		
+		public Token getToken() {
+			return token;
+		}
+		
+		public String getMessage() {
+			return message;
+		}
+		
 		@Override
 		public String toString() {
 			return token.getType() + ":" + token.getDataString() + ":" + token.getIndex() + ":" + message;
@@ -26,43 +30,12 @@ public class Parser {
 		
 	}
 	
-	public static void main(String[] args) throws IOException {
-		InputStream is = Parser.class.getResourceAsStream("/res/code.rljl");
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		
-		String code = "";
-		
-		String str;
-		while ((str = br.readLine()) != null) {
-			code += str + "\n";
-		}
-		
-		Parser parser = new Parser();
-		parser.code = code;
-		List<Token> tokens = parser.tokenize();
-		for (Token token : tokens) {
-			System.out.println(token.toString());
-		}
-		
-		parser.tokens = tokens;
-		Token block = parser.parseProgram();
-		
-		if (block != null) System.out.println("FINISH: " + block.toString());		
-		
-		for (Error error : parser.errors) {
-			System.out.println("ERROR " + error.toString());
-			System.out.println(code.replace('	', ' '));
-			for (int i = 0; i < error.token.getIndex(); i++) System.out.print(" ");
-			System.out.println("^");
-		}
-	}
-	
 	private int indexT = 0;
-	private String code;
+	public String code;
 	
 	private int indexP = 0;
-	private List<Token> tokens;
-	private List<Error> errors;
+	public List<Token> tokens;
+	public List<Error> errors;
 	
 	public Parser() {
 		tokens = new ArrayList<Token>();
@@ -120,7 +93,7 @@ public class Parser {
 		return getToken(indexP++);
 	}
 	
-	private List<Token> tokenize() {
+	public List<Token> tokenize() {
 		List<Token> tokens = new ArrayList<Token>();
 		
 		while (indexT < code.length()) {
@@ -412,20 +385,30 @@ public class Parser {
 			}
 		}
 		
+		tokens.add(new Token(TokenType.EOF, indexT));
 		return tokens;
 	}
 	
-	private Token parseProgram() {
+	public Token parseProgram() {
 		Token result = new Token(TokenType.PROGRAM);
-		result.setChildTokens(new Token[1]);
+		result.setChildTokens(new Token[0]);
 		
-		Token block = parseStmtBlock();
-		
-		if (block != null) {
-			result.getChildTokens()[0] = block;
-		} else {
-			errors.add(new Error(tokens.get(indexP), "parse program: block"));
-			return null;
+		int stmts = 0;
+		while (!exist(TokenType.EOF)) {
+			Token stmt = parseStmt();
+			
+			if (stmt != null) {
+				stmts++;
+				
+				Token[] tmp = result.getChildTokens();
+				result.setChildTokens(new Token[stmts]);
+				
+				for (int i = 0; i < tmp.length; i++) result.getChildTokens()[i] = tmp[i];
+				result.getChildTokens()[tmp.length] = stmt;
+			} else {
+				errors.add(new Error(tokens.get(indexP), "statement in program"));
+				return null;
+			}
 		}
 		
 		return result;

@@ -115,6 +115,8 @@ public enum TokenType {
 	STMT_BLOCK(),
 	
 	PROGRAM(),
+	
+	EOF(),
 	;
 	
 	private String str;
