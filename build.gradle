@@ -1,0 +1,26 @@
+apply plugin: 'java'
+
+sourceSets {
+	main {
+		java {
+			srcDirs 'src/main/java'
+		}
+		resources {
+			srcDirs 'src/main/resources'
+		}
+	}
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+version = '0.1.0'
+
+jar {
+	manifest {
+		attributes 'Version': version
+	}
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '3.2'
+}
