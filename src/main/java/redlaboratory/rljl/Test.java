@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 
 import redlaboratory.rljl.parse.Parser;
 import redlaboratory.rljl.parse.Token;
 import redlaboratory.rljl.vm.Operation;
+import redlaboratory.rljl.vm.VM;
 import redlaboratory.rljl.parse.Parser.Error;
 
 public class Test {
@@ -55,7 +57,14 @@ public class Test {
 		
 		redlaboratory.rljl.parse.Compiler comp = new redlaboratory.rljl.parse.Compiler();
 		List<Operation> ops = comp.generateCode(block);
-		for (Operation op : ops) System.out.println(op.toString());
+		for (int i = 0; i < ops.size(); i++) {
+			Operation op = ops.get(i);
+			System.out.println(i + "	" + op.toString());
+		}
+		
+		VM vm = new VM(ops.toArray(new Operation[] {}));
+		vm.run();
+		System.out.println(Arrays.toString(vm.getRegs()));
 	}
 	
 }

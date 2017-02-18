@@ -2,7 +2,7 @@
  * test 
  */
 def a as int = !a.f("d") | 2 + b * c && d * e + f + g.h & 123;
-	
+
 if (true) {
 	
 } else if (A) {

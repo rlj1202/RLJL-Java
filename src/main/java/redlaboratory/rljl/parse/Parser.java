@@ -292,9 +292,15 @@ public class Parser {
 					continue;
 				}
 			} else if (c == '!') {
-				tokens.add(new Token(TokenType.LOGIC_NOT, indexT));
-				indexT++;
-				continue;
+				if (exist("!=")) {
+					tokens.add(new Token(TokenType.NEQ, indexT));
+					indexT += 2;
+					continue;
+				} else {
+					tokens.add(new Token(TokenType.LOGIC_NOT, indexT));
+					indexT++;
+					continue;
+				}
 			} else if (c == '>') {
 				if (exist(">=")) {
 					tokens.add(new Token(TokenType.GTE, indexT));
@@ -307,11 +313,11 @@ public class Parser {
 				}
 			} else if (c == '<') {
 				if (exist("<=")) {
-					tokens.add(new Token(TokenType.LT, indexT));
+					tokens.add(new Token(TokenType.LTE, indexT));
 					indexT += 2;
 					continue;
 				} else {
-					tokens.add(new Token(TokenType.LTE, indexT));
+					tokens.add(new Token(TokenType.LT, indexT));
 					indexT++;
 					continue;
 				}
@@ -860,7 +866,7 @@ public class Parser {
 				return null;
 			}
 		} else {
-			result.getChildTokens()[0] = null;
+			result.setChildTokens(null);
 			return result;
 //			errors.add(new Error(tokens.get(indexP), "unexpected"));
 //			return null;
@@ -896,6 +902,7 @@ public class Parser {
 			else if (exist(TokenType.ADD)) { curPriority = 2; type = TokenType.EXPR_ADD; }
 			else if (exist(TokenType.SUB)) { curPriority = 2; type = TokenType.EXPR_SUB; }
 			else if (exist(TokenType.EQ)) { curPriority = 1; type = TokenType.EXPR_EQ; }
+			else if (exist(TokenType.NEQ)) { curPriority = 1; type = TokenType.EXPR_NEQ; }
 			else if (exist(TokenType.GT)) { curPriority = 1; type = TokenType.EXPR_GT; }
 			else if (exist(TokenType.GTE)) { curPriority = 1; type = TokenType.EXPR_GTE; }
 			else if (exist(TokenType.LT)) { curPriority = 1; type = TokenType.EXPR_LT; }

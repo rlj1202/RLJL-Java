@@ -10,6 +10,17 @@ public class VM {
 		this.operations = operations;
 		
 		this.index = 0;
+		reg = new int[10];
+	}
+	
+	public void run() {
+		while (index < operations.length) {
+			process();
+		}
+	}
+	
+	public int[] getRegs() {
+		return reg;
 	}
 	
 	private void process() {
@@ -25,10 +36,20 @@ public class VM {
 			reg[op.operands[0]] = reg[op.operands[1]] / reg[op.operands[2]];
 		} else if (op.type == OPCode.MOD) {
 			reg[op.operands[0]] = reg[op.operands[1]] % reg[op.operands[2]];
+		} else if (op.type == OPCode.AND) {
+			reg[op.operands[0]] = reg[op.operands[1]] & reg[op.operands[2]];
+		} else if (op.type == OPCode.OR) {
+			reg[op.operands[0]] = reg[op.operands[1]] | reg[op.operands[2]];
+		} else if (op.type == OPCode.NOT) {
+			reg[op.operands[0]] = ~reg[op.operands[1]];
 		} else if (op.type == OPCode.LOAD) {
 			reg[op.operands[0]] = op.operands[1];
+		} else if (op.type == OPCode.MOVE) {
+			reg[op.operands[0]] = reg[op.operands[1]];
 		} else if (op.type == OPCode.EQ) {
 			reg[op.operands[0]] = reg[op.operands[1]] == reg[op.operands[2]] ? 1 : 0;
+		} else if (op.type == OPCode.NEQ) {
+			reg[op.operands[0]] = reg[op.operands[1]] != reg[op.operands[2]] ? 1 : 0;
 		} else if (op.type == OPCode.GT) {
 			reg[op.operands[0]] = reg[op.operands[1]] > reg[op.operands[2]] ? 1 : 0;
 		} else if (op.type == OPCode.GTE) {
@@ -39,8 +60,12 @@ public class VM {
 			reg[op.operands[0]] = reg[op.operands[1]] <= reg[op.operands[2]] ? 1 : 0;
 		} else if (op.type == OPCode.JMP) {
 			index += op.operands[0];
+			return;
 		} else if (op.type == OPCode.JMP_F) {
-			if (reg[op.operands[0]] == 0) index += op.operands[1];
+			if (reg[op.operands[0]] == 0) {
+				index += op.operands[1];
+				return;
+			}
 		}
 		
 		index++;

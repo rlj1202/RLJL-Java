@@ -34,6 +34,7 @@ public enum TokenType {
 	WHILE("while"),// while
 	
 	EQ("=="),// ==
+	NEQ("!="),// !=
 	GT(">"),// >
 	GTE(">="),// >=
 	LT("<"),// <
@@ -98,6 +99,7 @@ public enum TokenType {
 	EXPR_ADD(),// priority 2
 	EXPR_SUB(),// priority 2
 	EXPR_EQ(),// priority 1
+	EXPR_NEQ(),// priority 1
 	EXPR_GT(),// priority 1
 	EXPR_GTE(),// priority 1
 	EXPR_LT(),// priority 1

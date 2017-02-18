@@ -65,7 +65,7 @@ public class Token {
 		
 		if (str != null) result += " = " + str;
 		
-		if (childTokens.length > 0) {
+		if (childTokens != null && childTokens.length > 0) {
 			result += " {\n";
 			
 			for (Token token : childTokens) {
